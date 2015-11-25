@@ -1,0 +1,15 @@
+--> A conexão a IR_CATHODE (pino 3 [4]) não é necessária, é feita internamente (cf página 5 da D.S.)
+
+--> Os pinos 10-12 NÃO DEVEM ESTAR LIGADOS!
+
+--> O address do dispositivo é fixo, e é o 0010_011x_b, em que 'x' é o bit
+que define o modo de leitura ou escrita. Anyway, o endereço do 'escravo' é 0x13 
+
+--> O registo dos resultados está no registo 7 e 8 (endereços 0x87 e 0x88), que
+contém, respectivamente, o byte MAIS significativo (Reg7) e o MENOS significativo (Reg8)
+--> O registo da ambient light está no registo 5 e 6 (endereçoes 0x85 e 0x86).
+
+
+--> A stop condition entre write e reads consecutivos NÃO É obrigatória.
+--> Também funciona  com repeated start!
+--> Para ler registos subsequentes, não é necessário endereçá-los: basta endereçar o primeiro, e o register counter é incrementado automaticamente a cada comando de Read para o slave.
