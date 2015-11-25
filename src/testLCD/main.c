@@ -4,6 +4,7 @@
 #include <xc.h>
 
 #pragma config WDTE = OFF // This disables the watchdog timer!
+
 #define _XTAL_FREQ 4000000
 #define DC    LATC3
 #define SCE   LATC4
@@ -35,18 +36,18 @@ void initLCD() {
     SCK   = 0;
     
     // Initial reset to the device
-    __delay_ms(200);
+    __delay_ms(300);
     RST = 0;
-    __delay_ms(200);
+    __delay_ms(300);
     RST = 1;
 }
 
 void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
     DC  = dataCommand;
     SCK = 0;
-    __delay_us(1);
+    __delay_us(100);
     SCE = 0;
-    __delay_us(1);
+    __delay_us(100);
     
     for(int i=0; i < 8; i++) {
         SCK = 0; // Clock goes idle
@@ -55,15 +56,15 @@ void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
         (*buf) & 0b10000000 ? DIN = 1 : DIN = 0;  
         
         // Rising Edge of the Clock
-        __delay_us(1);
+        __delay_us(100);
         SCK = 1;
-        __delay_us(1);
+        __delay_us(100);
         
         // We shift the next bit
         (*buf) = ((*buf)<<1);
     }
+    
     SCK = 0;
-    SCE = 1;
 }
 
 void CLOCKconfig() {
@@ -81,20 +82,23 @@ void main(void) {
     
     buf = 0x21;
     sendByteLCD(&buf, 0);
-    buf = 0x90;
+    buf = 0xC0; // Set the Operation Voltage to a good value
     sendByteLCD(&buf, 0);
-    buf = 0x20;
+    buf = 0x13; // Set Bias bits BSx. This way we get Mux of 1:48
     sendByteLCD(&buf, 0);
-    buf = 0x0D;
+    buf = 0x04; // Set the TempCoef to 3 out of 4
+    sendByteLCD(&buf, 0);
+    
+    buf = 0x09;
     sendByteLCD(&buf, 0);
     
     while(1) {
-        buf = 0x0D;
-        sendByteLCD(&buf, 0);
-        __delay_ms(1000);
-        buf = 0x0C;
-        sendByteLCD(&buf, 0);
-        __delay_ms(1000);
+//        buf = 0x0D;
+//        sendByteLCD(&buf, 1);
+//        __delay_ms(500);
+//        buf = 0x0C;
+//        sendByteLCD(&buf, 1);
+//        __delay_ms(500);
     }
     
 }
