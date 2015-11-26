@@ -49,7 +49,9 @@ void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
 }
 
 void printCharLCD(char c) {
-
+    for(int i=0; i<5; i++) {
+        sendByteLCD(ASCII[c][i], 1);
+    }
 }
 
 
