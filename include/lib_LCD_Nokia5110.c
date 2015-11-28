@@ -162,8 +162,8 @@ void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
         // We shift the next bit
         (*buf) = ((*buf)<<1);
     }
-    
     SCK = 0;
+    SCE = 1;
 }
 
 void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBytes) {
@@ -189,8 +189,16 @@ void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBy
             *(buf+n) = (*(buf+n)<<1);
         }
     }
-    
-    SCK = 0;    
+    SCK = 0;  
+    SCE = 1;
+
+}
+
+void gotoXY(uint8_t X, uint8_t Y) {
+    unsigned char buf = 0x40 + Y%8;
+    sendByteLCD(&buf, 0);
+    buf = 0x80 + X%84;
+    sendByteLCD(&buf, 0);
 }
 
 void clearLCD() {
@@ -207,5 +215,26 @@ void printCharLCD(char c) {
     send_N_ByteLCD(ASCII[c - 0x20], 1, 6);
 }
 
-
+void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment) {
+    if (numBytes > 14 )
+         numBytes = 14; //Truncates string if it is longer than the screensize
+    uint8_t startPoint;
+    
+    // This means it is left aligned
+    if (1 == alignment) {
+        for(int i=0; i < numBytes; i++) {
+            send_N_ByteLCD(ASCII[str[i] - 0x20], 1, 6);    
+        }
+    } else if(2 == alignment) {
+        startPoint = (14 - numBytes)/2;
+        
+        // Prints the preceding blank spaces
+        send_N_ByteLCD( ASCII[' ' - 0x20], 1, startPoint*6);
+        
+        for(int i=0; i < numBytes; i++) {
+            send_N_ByteLCD(ASCII[str[i] - 0x20], 1, 6);
+        }
+                
+    }
+}
 
