@@ -1,4 +1,5 @@
 #include <xc.h>
+#include <stdint.h>
 
 #define _XTAL_FREQ 4000000
 
@@ -11,6 +12,8 @@
 void initLCD();
 
 void sendByteLCD(unsigned char* buf, unsigned char dataCommand);
+
+void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBytes);
 
 void configLCD();
 

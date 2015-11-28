@@ -166,6 +166,33 @@ void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
     SCK = 0;
 }
 
+void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBytes) {
+    DC  = dataCommand;
+    SCK = 0;
+    __delay_us(1);
+    SCE = 0;
+    __delay_us(1);
+    
+    for(int n=0; n < numBytes; n++) {
+        for(int i=0; i < 8; i++) {
+            SCK = 0; // Clock goes idle
+
+            // Since we send the MSB first, we mask bit 8 and we send its logical value
+            *(buf+n) & 0b10000000 ? DIN = 1 : DIN = 0;  
+
+            // Rising Edge of the Clock
+            __delay_us(1);
+            SCK = 1;
+            __delay_us(1);
+
+            // We shift the next bit
+            *(buf+n) = (*(buf+n)<<1);
+        }
+    }
+    
+    SCK = 0;    
+}
+
 void clearLCD() {
     unsigned char buf = 0x00;
     
@@ -177,9 +204,7 @@ void clearLCD() {
 }
 
 void printCharLCD(char c) {
-    for(int i=0; i<6; i++) {
-        sendByteLCD(ASCII[c - 0x20]+i, 1);
-    }
+    send_N_ByteLCD(ASCII[c - 0x20], 1, 6);
 }
 
 
