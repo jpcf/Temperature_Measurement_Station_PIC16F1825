@@ -23,6 +23,24 @@ void initLCD() {
     RST = 1;
 }
 
+void configLCD() {
+    unsigned char buf;
+    buf = 0x21;
+    sendByteLCD(&buf, 0);
+    buf = 0xC0; // Set the Operation Voltage to a good value
+    sendByteLCD(&buf, 0);
+    buf = 0x07; // Set the TempCoef to 4
+    sendByteLCD(&buf, 0);
+    buf = 0x13; // Set Bias bits BSx. This way we get Mux of 1:48
+    sendByteLCD(&buf, 0);
+    buf = 0x20; // Normal set of controls
+    sendByteLCD(&buf, 0);
+    buf = 0x08; // Clears the screen
+    sendByteLCD(&buf, 0);
+    buf = 0x0C; // Normal Display Mode
+    sendByteLCD(&buf, 0);
+}
+
 void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
     DC  = dataCommand;
     SCK = 0;
@@ -46,6 +64,16 @@ void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
     }
     
     SCK = 0;
+}
+
+void clearLCD() {
+    unsigned char buf = 0x00;
+    
+    for(int i=0; i<6; i++) {
+        for(int j=0; j < 84; j++) {
+            sendByteLCD(&buf, 1);
+        }
+    }
 }
 
 void printCharLCD(char c) {

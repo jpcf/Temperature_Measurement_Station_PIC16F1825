@@ -209,5 +209,9 @@ void initLCD();
 
 void sendByteLCD(unsigned char* buf, unsigned char dataCommand);
 
+void configLCD();
+
+void clearLCD();
+
 void printCharLCD(char c);
 
