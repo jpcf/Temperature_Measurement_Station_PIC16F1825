@@ -31,9 +31,10 @@ void main(void) {
     __delay_ms(1000);
     
     while(1) {
-        for(char c = '!'; c < 'z'; c++){
-            printCharLCD(c);
-            __delay_ms(100);
+        gotoXY(20, 4);
+        for(int y = 0; y < 6; y++) {
+            printlnLCD("AbCdeF#", 7, 1);
+            __delay_ms(1000);
         }
     }
     
