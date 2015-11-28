@@ -24,28 +24,17 @@ void main(void) {
     
     CLOCKconfig();
     initLCD();
-    
-    buf = 0x21;
-    sendByteLCD(&buf, 0);
-    buf = 0xC0; // Set the Operation Voltage to a good value
-    sendByteLCD(&buf, 0);
-    buf = 0x07; // Set the TempCoef to 4
-    sendByteLCD(&buf, 0);
-    buf = 0x13; // Set Bias bits BSx. This way we get Mux of 1:48
-    sendByteLCD(&buf, 0);
-    buf = 0x20; // Normal set of controls
-    sendByteLCD(&buf, 0);
-    buf = 0x08; // Clears the screen
-    sendByteLCD(&buf, 0);
-    buf = 0x0C; // Normal Display Mode
-    sendByteLCD(&buf, 0);
+    configLCD();
+    clearLCD();
     
     LATC1 = 1;
     __delay_ms(1000);
     
     while(1) {
-        printCharLCD('T');
-        __delay_ms(1000);
+        for(char c = '!'; c < 'z'; c++){
+            printCharLCD(c);
+            __delay_ms(100);
+        }
     }
     
 }
