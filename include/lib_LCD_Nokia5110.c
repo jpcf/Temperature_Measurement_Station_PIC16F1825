@@ -216,25 +216,26 @@ void printCharLCD(char c) {
 }
 
 void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment) {
+    static uint8_t yPos = 0;
+    
     if (numBytes > 14 )
          numBytes = 14; //Truncates string if it is longer than the screensize
-    uint8_t startPoint;
-    
+
     // This means it is left aligned
     if (1 == alignment) {
         for(int i=0; i < numBytes; i++) {
             send_N_ByteLCD(ASCII[str[i] - 0x20], 1, 6);    
         }
     } else if(2 == alignment) {
-        startPoint = (14 - numBytes)/2;
+        // Moves the cursor to the correct position
+        gotoXY( 6*(14 - numBytes)/2, yPos % 6);
         
-        // Prints the preceding blank spaces
-        send_N_ByteLCD( ASCII[' ' - 0x20], 1, startPoint*6);
-        
+        // Prints the actual string
         for(int i=0; i < numBytes; i++) {
             send_N_ByteLCD(ASCII[str[i] - 0x20], 1, 6);
         }
-                
     }
+    //Moves to the next line
+    gotoXY(0, (++yPos) % 6);
 }
 
