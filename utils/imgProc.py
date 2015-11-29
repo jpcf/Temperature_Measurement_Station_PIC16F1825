@@ -42,5 +42,5 @@ fout.write('const char IMG[504] = {\n');
 for y in range(0, 48, 8) :
     for i in range(0, 84, 1):
         hexVal = imgGray[y][i] + imgGray[y+1][i]*2 + imgGray[y+2][i]*4 + imgGray[y+3][i]*8 + imgGray[y+4][i]*16 + imgGray[y+5][i]*32 + imgGray[y+6][i]*64 + imgGray[y+7][i]*128
-        fout.write("{0:02X},\n".format(int(hexVal)));
+        fout.write("0x{0:02X},\n".format(int(hexVal)));
 
