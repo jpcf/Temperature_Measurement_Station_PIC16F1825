@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include "../include/lib_LCD_Nokia5110.h"
@@ -20,7 +22,8 @@ void CLOCKconfig() {
 
 void main(void) {
     
-    unsigned char buf;
+    int    i  = 0;
+    char str[30];
     
     CLOCKconfig();
     initLCD();
@@ -31,11 +34,8 @@ void main(void) {
     __delay_ms(1000);
     
     while(1) {
-        gotoXY(20, 4);
-        for(int y = 0; y < 6; y++) {
-            printlnLCD("AbCdeF#", 7, 1);
-            __delay_ms(1000);
-        }
+        sprintf(str, "Ola Pai!!!", i++);
+        printlnLCD(str, strlen(str), 2);
+        __delay_ms(500);
     }
-    
 }
