@@ -167,6 +167,8 @@ void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
 }
 
 void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBytes) {
+    unsigned char tempByte = 0;
+    
     DC  = dataCommand;
     SCK = 0;
     __delay_us(1);
@@ -174,11 +176,12 @@ void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBy
     __delay_us(1);
     
     for(int n=0; n < numBytes; n++) {
+        tempByte = *(buf+n);
         for(int i=0; i < 8; i++) {
             SCK = 0; // Clock goes idle
 
             // Since we send the MSB first, we mask bit 8 and we send its logical value
-            *(buf+n) & 0b10000000 ? DIN = 1 : DIN = 0;  
+            tempByte & 0b10000000 ? DIN = 1 : DIN = 0;  
 
             // Rising Edge of the Clock
             __delay_us(1);
@@ -186,7 +189,7 @@ void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBy
             __delay_us(1);
 
             // We shift the next bit
-            *(buf+n) = (*(buf+n)<<1);
+            tempByte = (tempByte<<1);
         }
     }
     SCK = 0;  
@@ -216,6 +219,7 @@ void printCharLCD(char c) {
 }
 
 void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment) {
+
     static uint8_t yPos = 0;
     
     if (numBytes > 14 )
