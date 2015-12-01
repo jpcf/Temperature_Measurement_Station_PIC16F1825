@@ -1,6 +1,7 @@
 #include "lib_LCD_Nokia5110.h"
 
 // The Font Matrix
+//unsigned char ASCII[][2] = {0x00, 0x00};
 unsigned char ASCII[][6] = {
    {0x00, 0x00, 0x00, 0x00, 0x00, 0x00} // 20  
   ,{0x00, 0x00, 0x5f, 0x00, 0x00, 0x00} // 21 !
@@ -100,6 +101,7 @@ unsigned char ASCII[][6] = {
   ,{0x78, 0x46, 0x41, 0x46, 0x78, 0x00} // 7f DEL
 };
 
+
 void initLCD() {
     // Some initial configs on port C
     ANSELC &= 0x00; // All bits on port C are set to Digital I/O's
@@ -166,7 +168,7 @@ void sendByteLCD(unsigned char* buf, unsigned char dataCommand) {
     SCE = 1;
 }
 
-void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, uint8_t numBytes) {
+void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, int numBytes) {
     unsigned char tempByte = 0;
     
     DC  = dataCommand;
@@ -243,3 +245,7 @@ void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment) {
     gotoXY(0, (++yPos) % 6);
 }
 
+void printImageLCD(char* imageStr) {
+    gotoXY(0,0);
+    send_N_ByteLCD(imageStr, 1, 504);
+}
