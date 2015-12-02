@@ -1,8 +1,6 @@
 #include <xc.h>
 #include <stdint.h>
 
-#define _XTAL_FREQ 4000000
-
 #define DC    LATC3
 #define SCE   LATC4
 #define RST   LATC5

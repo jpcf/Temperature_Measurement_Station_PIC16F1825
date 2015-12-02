@@ -1,4 +1,5 @@
 #include "lib_LCD_Nokia5110.h"
+#include "PIC16F1825_configs.h"
 
 // The Font Matrix
 //unsigned char ASCII[][2] = {0x00, 0x00};
