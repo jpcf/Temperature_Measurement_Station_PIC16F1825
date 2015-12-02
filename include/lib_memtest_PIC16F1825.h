@@ -1,7 +1,7 @@
 #include <xc.h>
 #include <stdint.h>
 
-void memtest_MARCH_Cmin();
-
+uint16_t memtest_MARCH_Cmin();
+void     eraseRAM();
 
 
