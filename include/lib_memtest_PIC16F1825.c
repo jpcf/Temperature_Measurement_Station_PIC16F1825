@@ -3,22 +3,22 @@
 uint16_t memtest_MARCH_Cmin() {
     
     // Writing 0, upwards
-    for(FSR0 = 0x2000; FSR0 <= 0x29AF; FSR0++) {
-        INDF0 = 0x01;
+    for(FSR1 = DATAMEM_START; FSR1 <= DATAMEM_END; FSR1++) {
+        INDF1 = 0x00;
     }
     
     // Reading 0 and Writing 1 in place, upwards
-    for(FSR0 = 0x2000; FSR0 <= 0x29AF; FSR0++) {
-        if(INDF0 != 0x00) {
-            return FSR0;
+    for(FSR1 = DATAMEM_START; FSR1 <= DATAMEM_END; FSR1++) {
+        if(INDF1 != 0x00) {
+            return FSR1;
         }
-        INDF0 = 0xFF;
+        INDF1 = 0xFF;
     }
     
     LATC1 = 0;
     
     // Reading 1 and Writing 0 in place, upwards
-    for(FSR0 = 0x2000; FSR0 <= 0x29AF; FSR0++) {
+    for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR0++) {
         if(INDF0 != 0xFF) {
             return FSR0;
         }
@@ -27,7 +27,7 @@ uint16_t memtest_MARCH_Cmin() {
     }
     
     // Reading 0 and Writing 1 in place, downwards
-    for(FSR0 = 0x29AF; FSR0 <= 0x2000; FSR0--) {
+    for(FSR0 = DATAMEM_END; FSR0 >= DATAMEM_START; FSR0--) {
         if(INDF0 != 0x00) {
             return FSR0;
         }
@@ -36,7 +36,7 @@ uint16_t memtest_MARCH_Cmin() {
     }
     
     // Reading 1 and Writing 0 in place, downwards
-    for(FSR0 = 0x29AF; FSR0 <= 0x2000; FSR0--) {
+    for(FSR0 = DATAMEM_END; FSR0 >= DATAMEM_START; FSR0--) {
         if(INDF0 != 0xFF) {
             return FSR0;
         }
@@ -44,7 +44,7 @@ uint16_t memtest_MARCH_Cmin() {
     }
     
     // Finally, reading 0, upwards
-    for(FSR0 = 0x2000; FSR0 <= 0x29AF; FSR0++) {
+    for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR0++) {
         if(INDF0 != 0x00) {
             return FSR0;
         }
@@ -54,7 +54,7 @@ uint16_t memtest_MARCH_Cmin() {
 }
 
 void eraseRAM() {
-    for(FSR0 = 0x2000; FSR0 <= 0x29AF; FSR0++) {
+    for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR0++) {
         INDF0 = 0x00;
     }
 }
