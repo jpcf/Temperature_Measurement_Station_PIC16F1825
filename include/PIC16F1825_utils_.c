@@ -16,7 +16,7 @@ bit one_wire_init(){
     OPTION_REGbits.nWPUEN = 0; // enable individual pull-up control
     WPUAbits.WPUA2 = 0; // disable pull-up on rc2
     
-    TRISA2 = 0; // RC2 as output
+    TRISA2 = 0; // RA2 as output
     LATA2 = 0; // write a zero
     __delay_us(490);
     
