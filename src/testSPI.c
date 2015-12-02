@@ -24,6 +24,7 @@ void main(void) {
     
     int    i  = 0;
     char str[30];
+    unsigned char buf;
     
     CLOCKconfig();
     initLCD();
@@ -33,9 +34,11 @@ void main(void) {
     LATC1 = 1;
     __delay_ms(1000);
     
+    printlnLCD("Screen Ok!", 10, 2);
+   
+    //__delay_ms(2000);
+    //printImageLCD(IMG);
+    
     while(1) {
-        sprintf(str, "Ola Pai!!!", i++);
-        printlnLCD(str, strlen(str), 2);
-        __delay_ms(500);
     }
 }
