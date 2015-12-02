@@ -22,35 +22,24 @@ void CLOCKconfig() {
 }
 
 void main(void) {
-
-    char str[14] ;
-    
+   
     CLOCKconfig();
     TRISC = 0x00;
-    LATC1 = 1;
-    // __delay_ms(2000);
-    LATC1 = 0;
-
-     //__delay_ms(1000);
-    
+    //sprintf(str, "Testing RAM");
+    //printlnLCD(str, strlen(str), 2);
+        
     initLCD();
     configLCD();
     clearLCD();
     
-    //sprintf(str, "Testing RAM");
-    //printlnLCD(str, strlen(str), 2);
+    uint16_t memAddrErr = memtest_MARCH_Cmin();
     
-    LATC1 = 1;
-    
-    eraseRAM();
-    uint16_t resultRAMtest = memtest_MARCH_Cmin();
-    LATC1 = 0;
-    
-    if(0x3000 != resultRAMtest) {
-        sprintf(str, "RAM Error!");
+    char str[14] ; 
+    if(0x3000 != memAddrErr ) {
+        sprintf(str, "Error @ %4X", memAddrErr);
         printlnLCD(str, strlen(str), 2);
     } else {
-        sprintf(str, "RAM Ok!");
+        sprintf(str, "RAM OK!");
         printlnLCD(str, strlen(str), 2);
     }
     
