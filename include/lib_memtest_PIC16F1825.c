@@ -67,6 +67,7 @@ uint8_t memtest_program_mem(){
     for (prog_space_addr = 0x0000; prog_space_addr <= 0x1FFF; prog_space_addr++ ){
         
         prog_space_data = 0;
+        
         EEADRL = prog_space_addr & 0x00FF;
         EEADRH = (prog_space_addr >> 8) & 0x00FF;
         EECON1bits.CFGS = 0;
@@ -74,14 +75,17 @@ uint8_t memtest_program_mem(){
         EECON1bits.RD = 1;
         asm("NOP");
         asm("NOP");
+        
         prog_space_data = EEDATH;
         prog_space_data = prog_space_data << 8;
         prog_space_data |= EEDATL;
+        
         if(prog_space_addr != 0x1FFF)
             checksum_calc = checksum_calc + prog_space_data;
         else
             CHECKSUM = prog_space_data; // the expected checksum is stored in the last address
     }
+    
     return (CHECKSUM == checksum_calc);
 }
 

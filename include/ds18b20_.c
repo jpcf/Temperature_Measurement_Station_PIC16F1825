@@ -6,14 +6,14 @@ float read_temp_ds18b20(){
     int16_t res;
     float temp;
     
-    one_wire_RC2_init();
-    one_wire_RC2_write_byte(SKIP_ROM);
-    one_wire_RC2_write_byte(READ_SCRATCHPAD);
-    temperature[0] = one_wire_RC2_read_byte(); // LSB
-    temperature[1] = one_wire_RC2_read_byte(); // MSB
-    one_wire_RC2_read_byte(); // ignore
-    one_wire_RC2_read_byte(); // ignore
-    configs = one_wire_RC2_read_byte();
+    one_wire_init();
+    one_wire_write_byte(SKIP_ROM);
+    one_wire_write_byte(READ_SCRATCHPAD);
+    temperature[0] = one_wire_read_byte(); // LSB
+    temperature[1] = one_wire_read_byte(); // MSB
+    one_wire_read_byte(); // ignore
+    one_wire_read_byte(); // ignore
+    configs = one_wire_read_byte();
     
     res=0;
     // See datasheet to understand LSB and MSB structure and why the following operations are used
@@ -36,28 +36,28 @@ float read_temp_ds18b20(){
 void set_precision_ds18b20(uint8_t precision){
     uint8_t actual_values[2];
     
-    one_wire_RC2_init();
-    one_wire_RC2_write_byte(SKIP_ROM);
-    one_wire_RC2_write_byte(READ_SCRATCHPAD);
+    one_wire_init();
+    one_wire_write_byte(SKIP_ROM);
+    one_wire_write_byte(READ_SCRATCHPAD);
     
-    one_wire_RC2_read_byte(); // ignore
-    one_wire_RC2_read_byte(); // ignore
+    one_wire_read_byte(); // ignore
+    one_wire_read_byte(); // ignore
     
-    actual_values[0] = one_wire_RC2_read_byte(); // To preserve this config
-    actual_values[1] = one_wire_RC2_read_byte();
+    actual_values[0] = one_wire_read_byte(); // To preserve this config
+    actual_values[1] = one_wire_read_byte();
     
-    one_wire_RC2_init();
-    one_wire_RC2_write_byte(SKIP_ROM);
-    one_wire_RC2_write_byte(WRITE_SCRATCHPAD);
+    one_wire_init();
+    one_wire_write_byte(SKIP_ROM);
+    one_wire_write_byte(WRITE_SCRATCHPAD);
    
-    one_wire_RC2_write_byte(actual_values[0]);
-    one_wire_RC2_write_byte(actual_values[1]);
-    one_wire_RC2_write_byte(precision);
+    one_wire_write_byte(actual_values[0]);
+    one_wire_write_byte(actual_values[1]);
+    one_wire_write_byte(precision);
     
 }
 
 void start_temp_measure_ds18b20(){
-    one_wire_RC2_init();
-    one_wire_RC2_write_byte(SKIP_ROM);
-    one_wire_RC2_write_byte(CONVERT_T); 
+    one_wire_init();
+    one_wire_write_byte(SKIP_ROM);
+    one_wire_write_byte(CONVERT_T); 
 }
