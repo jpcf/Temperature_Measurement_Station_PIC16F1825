@@ -548,7 +548,7 @@ int main(int argc, char** argv) {
 
     // ---------- ROM Testing ---------- //
     uint8_t ROMtest = memtest_program_mem();
-    if(0 == ROMtest){
+    if(ROMtest){
         sprintf(tempStr, "ROM Test OK!");  
         printlnLCD(tempStr, strlen(tempStr), 2, &cursor); 
     }else {
