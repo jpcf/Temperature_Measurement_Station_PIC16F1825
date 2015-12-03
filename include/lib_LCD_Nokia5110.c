@@ -201,13 +201,13 @@ void send_N_ByteLCD(unsigned char* buf, unsigned char dataCommand, int numBytes)
 }
 
 void gotoXY(uint8_t X, uint8_t Y) {
-    unsigned char buf = 0x40 + Y%8;
+    unsigned char buf = 0x40 + Y;
     sendByteLCD(&buf, 0);
-    buf = 0x80 + X%84;
+    buf = 0x80 + X;
     sendByteLCD(&buf, 0);
 }
 
-void clearLCD() {
+void clearLCD(LCDcursor* cursor) {
     unsigned char buf = 0x00;
     
     for(int i=0; i<6; i++) {
@@ -215,15 +215,16 @@ void clearLCD() {
             sendByteLCD(&buf, 1);
         }
     }
+    // Updates the screen cursor position
+    cursor->xPos = 0;
+    cursor->yPos = 0;
 }
 
 void printCharLCD(char c) {
     send_N_ByteLCD(ASCII[c - 0x20], 1, 6);
 }
 
-void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment) {
-
-    static uint8_t yPos = 0;
+void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment, LCDcursor* cursor) {
     
     if (numBytes > 14 )
          numBytes = 14; //Truncates string if it is longer than the screensize
@@ -235,7 +236,7 @@ void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment) {
         }
     } else if(2 == alignment) {
         // Moves the cursor to the correct position
-        gotoXY( 6*(14 - numBytes)/2, yPos % 6);
+        gotoXY( 6*(14 - numBytes)/2, cursor->yPos % 6);
         
         // Prints the actual string
         for(int i=0; i < numBytes; i++) {
@@ -243,7 +244,8 @@ void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment) {
         }
     }
     //Moves to the next line
-    gotoXY(0, (++yPos) % 6);
+    gotoXY(0, (cursor->yPos + 1) % 6);
+    cursor->yPos += 1;
 }
 
 void printImageLCD(char* imageStr) {

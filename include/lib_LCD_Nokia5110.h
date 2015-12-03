@@ -7,6 +7,11 @@
 #define DIN   LATC2
 #define SCK   LATC0
 
+typedef struct LCDcursor {
+    uint8_t xPos;
+    uint8_t yPos;
+} LCDcursor;
+
 void initLCD();
 
 void sendByteLCD(unsigned char* buf, unsigned char dataCommand);
@@ -17,10 +22,10 @@ void gotoXY(uint8_t X, uint8_t Y);
 
 void configLCD();
 
-void clearLCD();
+void clearLCD(LCDcursor* cursor);
 
 void printCharLCD(char c);
 
-void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment);
+void printlnLCD(char* str, uint8_t numBytes, uint8_t alignment, LCDcursor* cursor);
 
 void printImageLCD(char* imageStr);
