@@ -86,7 +86,7 @@ uint8_t memtest_program_mem(){
             CHECKSUM = prog_space_data; // the expected checksum is stored in the last address
     }
     
-    return (CHECKSUM == checksum_calc);
+    return (CHECKSUM != checksum_calc);
 }
 
 

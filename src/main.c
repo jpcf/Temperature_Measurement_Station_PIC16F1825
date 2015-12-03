@@ -558,16 +558,17 @@ int main(int argc, char** argv) {
     
     __delay_ms(3000);
     printImageLCD(IMG);
-    //set_precision_ds18b20(PRECISION_12);
-    
+    __delay_ms(3000);
+
+    set_precision_ds18b20(PRECISION_12);
     
     while(1){
-        //start_temp_measure_ds18b20();
-        //__delay_ms(1000);           // Wait for temperature measurement 
-        //tempe = read_temp_ds18b20();
-        
-        // IMPRIMIR NO LCD O VALOR DA TEMPERATURA
-  
+        start_temp_measure_ds18b20();
+        __delay_ms(1000);           // Wait for temperature measurement 
+        sprintf(tempStr, "Temp: %.2f", read_temp_ds18b20());
+        gotoXY(0,2);
+        cursor.yPos = 2;
+        printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     }
 
     return (EXIT_SUCCESS);
