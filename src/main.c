@@ -7,6 +7,7 @@
 #include "../include/ds18b20.h"
 #include "../include/lib_LCD_Nokia5110.h"
 #include "../include/lib_memtest_PIC16F1825.h"
+#include "../include/PIC16F1825_utils.h"
 
 const char IMG[504] = {
 0x08,
@@ -555,6 +556,28 @@ int main(int argc, char** argv) {
         sprintf(tempStr, "ROM Error!");  
         printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     }
+    
+    // -------- EEPROM Testing -------- //
+    if(memtest_eeprom(NULL)){
+        sprintf(tempStr, "EEPROM Test OK!");  
+        printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
+    }else {
+        sprintf(tempStr, "EEPROM Error!");  
+        printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
+    }
+    
+    uint8_t turn_on_times = read_eeprom(0);
+    
+    if(turn_on_times == 0xFF) // By default the EEPROM data in a given address is 0xFF
+        turn_on_times = 1;    // This is the first time the circuit is powered up
+    else
+        turn_on_times++;
+    
+    write_eeprom(0,turn_on_times);
+    write_eeprom(255,turn_on_times ); // update the checksum (last address of EEPROM)
+    
+    sprintf(tempStr, "The circuit was powered %d times",turn_on_times);  
+    printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     
     __delay_ms(3000);
     printImageLCD(IMG);

@@ -28,4 +28,8 @@ void one_wire_write_byte(uint8_t byte_value);
 bit one_wire_read_bit();
 uint8_t one_wire_read_byte();
 
+// Functions to access EEPROM
+void write_eeprom(uint8_t addr, uint8_t data);
+uint8_t read_eeprom(uint8_t addr);
+
 #endif

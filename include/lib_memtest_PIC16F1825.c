@@ -1,4 +1,5 @@
 #include "../include/lib_memtest_PIC16F1825.h"
+#include "../include/PIC16F1825_utils.h"
 
 uint16_t memtest_MARCH_Cmin() {
     
@@ -89,4 +90,22 @@ uint8_t memtest_program_mem(){
     return !((CHECKSUM & 0x3FFF) ^ (checksum_calc & 0x3FFF));
 }
 
-
+uint8_t memtest_eeprom(uint8_t *checksum_calculated){
+    uint8_t eeprom_data,eeprom_addr, eeprom_checksum_calc = 0,eeprom_checksum;
+    
+    for (eeprom_addr = 0; eeprom_addr <= 255; eeprom_addr++ ){
+        eeprom_data = read_eeprom(eeprom_addr);
+        
+        if(255 != eeprom_addr)
+            eeprom_checksum_calc = eeprom_checksum_calc ^ eeprom_data;
+        else{
+            eeprom_checksum = eeprom_data;
+            if(NULL != checksum_calculated)
+                *checksum_calculated = eeprom_checksum_calc;
+            
+            break; // to avoid infinite loop because of eeprom_addr overflow 
+        }
+    }
+    
+    return (eeprom_checksum == eeprom_checksum_calc );
+}

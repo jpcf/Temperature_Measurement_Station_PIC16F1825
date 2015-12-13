@@ -95,3 +95,32 @@ uint8_t one_wire_read_byte(){
     return res;
 }
 
+void write_eeprom(uint8_t addr, uint8_t data){
+    
+     EEADRL = addr;
+     EEDATL = data;
+     EECON1bits.EEPGD = 0;
+     
+     // write sequence
+     EECON1bits.WREN = 1;
+     EECON2 = 0x55;
+     EECON2 = 0xAA;
+     EECON1bits.WR = 1;
+     EECON1bits.WREN = 0;
+     
+     while(1 == EECON1bits.WR ) continue; // Wait for hardware clear of WR bit
+     
+    
+}
+
+uint8_t read_eeprom(uint8_t addr){
+    uint8_t data;
+    
+    EEADRL = addr;
+    EECON1bits.EEPGD = 0;
+    EECON1bits.CFGS = 0;
+    EECON1bits.RD = 1;
+
+    data = EEDATL;
+    return data;  
+}
