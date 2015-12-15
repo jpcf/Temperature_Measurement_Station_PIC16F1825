@@ -7,6 +7,7 @@
 #include "../include/ds18b20.h"
 #include "../include/lib_LCD_Nokia5110.h"
 #include "../include/lib_memtest_PIC16F1825.h"
+#include "../include/PIC16F1825_utils.h"
 
 const char IMG[504] = {
 0x08,
@@ -548,7 +549,7 @@ int main(int argc, char** argv) {
 
     // ---------- ROM Testing ---------- //
     uint8_t ROMtest = memtest_program_mem();
-    if(0 == ROMtest){
+    if(ROMtest){
         sprintf(tempStr, "ROM Test OK!");  
         printlnLCD(tempStr, strlen(tempStr), 2, &cursor); 
     }else {
@@ -556,18 +557,41 @@ int main(int argc, char** argv) {
         printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     }
     
+    // -------- EEPROM Testing -------- //
+    if(memtest_eeprom(NULL)){
+        sprintf(tempStr, "EEPROM Test OK!");  
+        printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
+    }else {
+        sprintf(tempStr, "EEPROM Error!");  
+        printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
+    }
+    
+    uint8_t turn_on_times = read_eeprom(0);
+    
+    if(turn_on_times == 0xFF) // By default the EEPROM data in a given address is 0xFF
+        turn_on_times = 1;    // This is the first time the circuit is powered up
+    else
+        turn_on_times++;
+    
+    write_eeprom(0,turn_on_times);
+    write_eeprom(255,turn_on_times ); // update the checksum (last address of EEPROM)
+    
+    sprintf(tempStr, "The circuit was powered %d times",turn_on_times);  
+    printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
+    
     __delay_ms(3000);
     printImageLCD(IMG);
-    //set_precision_ds18b20(PRECISION_12);
-    
+    __delay_ms(3000);
+
+    set_precision_ds18b20(PRECISION_12);
     
     while(1){
-        //start_temp_measure_ds18b20();
-        //__delay_ms(1000);           // Wait for temperature measurement 
-        //tempe = read_temp_ds18b20();
-        
-        // IMPRIMIR NO LCD O VALOR DA TEMPERATURA
-  
+        start_temp_measure_ds18b20();
+        __delay_ms(1000);           // Wait for temperature measurement 
+        sprintf(tempStr, "Temp: %.2f", read_temp_ds18b20());
+        gotoXY(0,2);
+        cursor.yPos = 2;
+        printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     }
 
     return (EXIT_SUCCESS);

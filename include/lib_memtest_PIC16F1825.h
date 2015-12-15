@@ -3,12 +3,15 @@
 
 #include <xc.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #define DATAMEM_START 0x2000
 #define DATAMEM_END   0x23EF
 
 uint16_t memtest_MARCH_Cmin();
 void     eraseRAM();
+
+uint8_t memtest_eeprom(uint8_t *checksum_calculated);
 
 //For this function to work, is necessary to change compiler settings to compute the checksum and store it
 // on the last program memory address.
