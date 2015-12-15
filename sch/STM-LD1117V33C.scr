@@ -1,0 +1,79 @@
+# Created by Ultra Librarian Gold 5.3.88 Copyright © 1999-2010
+#  Premier Farnell
+
+Grid mil;
+Set Wire_Bend 2;
+
+
+Edit 'TO254P482X1024X3124-3P.pac';
+Change Drill 60;
+Pad '1' Square 0 R0 (-201 -51);
+Change Drill 60;
+Pad '2' Round 0 R0 (-100 -51);
+Change Drill 60;
+Pad '3' Round 0 R0 (0 -51);
+Layer 39;
+Wire 6 (-315 -126) (-315 75);
+Wire 6 (-315 75) (115 75);
+Wire 6 (115 75) (115 -126);
+Wire 6 (115 -126) (-315 -126);
+Layer 39;
+Wire 6 (-315 -126) (-315 75) (115 75) (115 -126);
+Layer 21;
+Wire 6 (-305 -116) (105 -116);
+Wire 6 (105 -116) (105 65);
+Wire 6 (105 65) (-305 65);
+Wire 6 (-305 65) (-305 -116);
+Wire 6 (-316 -59) -180 (-332 -59);
+Wire 6 (-332 -59) -180 (-316 -59);
+Layer 51;
+Wire 6 (-305 -116) (105 -116);
+Wire 6 (105 -116) (105 65);
+Wire 6 (105 65) (-305 65);
+Wire 6 (-305 65) (-305 -116);
+Wire 6 (-316 -59) -180 (-332 -59);
+Wire 6 (-332 -59) -180 (-316 -59);
+Layer 25;
+Change Size 82;
+Change Ratio 10;
+Text '>NAME' SR0 (-272 95);
+Layer 27;
+Change Size 82;
+Change Ratio 10;
+Text '>VALUE' SR0 (-332 -227);
+
+Edit 'LD1117V33C.sym';
+Layer 94;
+Pin 'VIN' In None Middle R0 Both 0 (-600 0);
+Pin 'VOUT' Out None Middle R180 Both 0 (600 0);
+Pin 'GND' Pas None Middle R90 Both 0 (0 -400);
+Wire 16 (-400 200) (-400 -200);
+Wire 16 (-400 -200) (400 -200);
+Wire 16 (400 -200) (400 200);
+Wire 16 (400 200) (-400 200);
+Layer 97;
+Layer 95;
+Change Size 82;
+Change Ratio 10;
+Text '>NAME' SR0 (-198 265);
+Layer 96;
+Change Size 82;
+Change Ratio 10;
+Text '>VALUE' SR0 (-229 -606);
+
+Edit 'LD1117V33C.dev';
+Prefix 'IC';
+
+Value Off;
+Add LD1117V33C 'A' Next  0 (0 0);
+Package 'TO254P482X1024X3124-3P';
+Technology '';
+Attribute Supplier 'STMicroelectronics';
+Attribute MPN 'LD1117V33C';
+Attribute OC_FARNELL '1703357';
+Attribute OC_NEWARK '89K0631';
+Attribute Package 'TO-220-3';
+Description 'IC, V REG, LD1117 3.3V, TO-220-3';
+Connect 'A.GND' '1';
+Connect 'A.VOUT' '2';
+Connect 'A.VIN' '3';
