@@ -4,19 +4,17 @@
 uint16_t memtest_MARCH_Cmin() {
     
     // Writing 0, upwards
-    for(FSR1 = DATAMEM_START; FSR1 <= DATAMEM_END; FSR1++) {
-        INDF1 = 0x00;
+    for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR1++) {
+        INDF0 = 0x00;
     }
     
     // Reading 0 and Writing 1 in place, upwards
-    for(FSR1 = DATAMEM_START; FSR1 <= DATAMEM_END; FSR1++) {
-        if(INDF1 != 0x00) {
-            return FSR1;
+    for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR1++) {
+        if(INDF0 != 0x00) {
+            return FSR0;
         }
-        INDF1 = 0xFF;
+        INDF0 = 0xFF;
     }
-    
-    LATC1 = 0;
     
     // Reading 1 and Writing 0 in place, upwards
     for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR0++) {
