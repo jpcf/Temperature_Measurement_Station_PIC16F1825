@@ -520,14 +520,14 @@ int main(int argc, char** argv) {
     
     char tempStr[14];
     LCDcursor cursor;    
-    // ----- Device Initial Config ----- //
+    /* ----- Device Initial Config ----- */
     pic16f1825_init();
     
-    // ------ LCD Initial Config ------- //
+    /* ------ LCD Initial Config ------- */
     initLCD();
     configLCD();
     
-    // ---------- RAM Testing ---------- //
+    /* ---------- RAM Testing ---------- */
     uint16_t RAMtest = memtest_MARCH_Cmin();
     LATC1 = 1;
     
@@ -535,7 +535,7 @@ int main(int argc, char** argv) {
     sprintf(tempStr, "Memory Tests:");  
     printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     
-    // Returns 0x3000 if no Errors, otherwise returns the address of the first error
+    /* Returns 0x3000 if no Errors, otherwise returns the address of the first error */
     gotoXY(0, cursor.yPos+1);
     cursor.yPos += 1;
     
@@ -547,7 +547,7 @@ int main(int argc, char** argv) {
         printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     }
 
-    // ---------- ROM Testing ---------- //
+    /* ---------- ROM Testing ---------- */
     uint8_t ROMtest = memtest_program_mem();
     if(ROMtest){
         sprintf(tempStr, "ROM Test OK!");  
@@ -557,7 +557,7 @@ int main(int argc, char** argv) {
         printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
     }
     
-    // -------- EEPROM Testing -------- //
+    /* -------- EEPROM Testing -------- */
     if(memtest_eeprom(NULL)){
         sprintf(tempStr, "EEPROM Test OK!");  
         printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
@@ -568,13 +568,13 @@ int main(int argc, char** argv) {
     
     uint8_t turn_on_times = read_eeprom(0);
     
-    if(turn_on_times == 0xFF) // By default the EEPROM data in a given address is 0xFF
-        turn_on_times = 1;    // This is the first time the circuit is powered up
+    if(0xFF == turn_on_times) /* By default the EEPROM data in a given address is 0xFF */
+        turn_on_times = 1;    /* This is the first time the circuit is powered up */
     else
         turn_on_times++;
     
     write_eeprom(0,turn_on_times);
-    write_eeprom(255,turn_on_times ); // update the checksum (last address of EEPROM)
+    write_eeprom(255,turn_on_times ); /* update the checksum (last address of EEPROM) */
     
     sprintf(tempStr, "The circuit was powered %d times",turn_on_times);  
     printlnLCD(tempStr, strlen(tempStr), 2, &cursor);
@@ -587,7 +587,7 @@ int main(int argc, char** argv) {
     
     while(1){
         start_temp_measure_ds18b20();
-        __delay_ms(1000);           // Wait for temperature measurement 
+        __delay_ms(1000);           /* Wait for temperature measurement */
         sprintf(tempStr, "Temp: %.2f", read_temp_ds18b20());
         gotoXY(0,2);
         cursor.yPos = 2;

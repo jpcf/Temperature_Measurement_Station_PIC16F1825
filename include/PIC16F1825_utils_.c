@@ -2,25 +2,25 @@
 #include "../include/PIC16F1825_configs.h"
 
 void pic16f1825_init(void){
-    // 16 mhz clock
-    OSCCONbits.SCS = 0; // clear SCS bits <1:0> 
-    OSCCONbits.IRCF = 0b1111; // Set IRCF<3:0> to 1111 ( bits 3-6 of OSCCON)
-    while(OSCSTATbits.HFIOFR == 0 || OSCSTATbits.HFIOFS == 0); // wait for clock to get stable
+    /* 16 mhz clock */
+    OSCCONbits.SCS = 0; /* clear SCS bits <1:0> */ 
+    OSCCONbits.IRCF = 0b1111; /* Set IRCF<3:0> to 1111 ( bits 3-6 of OSCCON) */
+    while(OSCSTATbits.HFIOFR == 0 || OSCSTATbits.HFIOFS == 0); /* wait for clock to get stable */
     
 }
 
 bit one_wire_init(){
     uint8_t read_value;
     
-    ANSELAbits.ANSA2 = 0; // RA2 is digital
-    OPTION_REGbits.nWPUEN = 0; // enable individual pull-up control
-    WPUAbits.WPUA2 = 0; // disable pull-up on rc2
+    ANSELAbits.ANSA2 = 0; /* RA2 is digital */
+    OPTION_REGbits.nWPUEN = 0; /* enable individual pull-up control */
+    WPUAbits.WPUA2 = 0; /* disable pull-up on rc2 */
     
-    TRISA2 = 0; // RA2 as output
-    LATA2 = 0; // write a zero
+    TRISA2 = 0; /* RA2 as output */
+    LATA2 = 0; /* write a zero */
     __delay_us(490);
     
-    TRISA2 = 1; // RC2 as input
+    TRISA2 = 1; /* RC2 as input */
     __delay_us(80);
    
     read_value = PORTA & RA2;
@@ -34,19 +34,19 @@ bit one_wire_init(){
 
 void one_wire_write_bit(uint8_t bit_value){
     
-    TRISA2 = 1; // RA2 as input
+    TRISA2 = 1; /* RA2 as input */
     __delay_us(2);
     
-    TRISA2 = 0; // RA2 as output
+    TRISA2 = 0; /* RA2 as output */
     
-    if(bit_value == 0){
-        LATA2 = 0; // write a zero 
+    if(0 == bit_value){
+        LATA2 = 0; /* write a zero */ 
         __delay_us(65);
-        TRISA2 = 1; // change to input
+        TRISA2 = 1; /* change to input */
     }else {
-        LATA2 = 0; // write a zero 
+        LATA2 = 0; /* write a zero */ 
         __delay_us(3);
-        TRISA2 = 1; // change to input
+        TRISA2 = 1; /* change to input */
         __delay_us(65);
     }
 }
@@ -54,15 +54,15 @@ void one_wire_write_bit(uint8_t bit_value){
 bit one_wire_read_bit(){
     uint8_t read_value;
     
-    TRISA2 = 1; // RA2 as input
-    __delay_us(2);  //-> recovering time
+    TRISA2 = 1; /* RA2 as input */
+    __delay_us(2);  /*-> recovering time */
     
-    TRISA2 = 0; // RA2 as output
-    LATA2 = 0; // write a zero
+    TRISA2 = 0; /* RA2 as output */
+    LATA2 = 0; /* write a zero */
     __delay_us(2);
-    TRISA2 = 1; // change to input
+    TRISA2 = 1; /* change to input */
     
-    // reading should be near 15us after falling edge of RA2
+    /* reading should be near 15us after falling edge of RA2 */
     __delay_us(7);
     read_value = PORTA & RA2;
     
@@ -101,14 +101,14 @@ void write_eeprom(uint8_t addr, uint8_t data){
      EEDATL = data;
      EECON1bits.EEPGD = 0;
      
-     // write sequence
+     /* write sequence */
      EECON1bits.WREN = 1;
      EECON2 = 0x55;
      EECON2 = 0xAA;
      EECON1bits.WR = 1;
      EECON1bits.WREN = 0;
      
-     while(1 == EECON1bits.WR ) continue; // Wait for hardware clear of WR bit
+     while(1 == EECON1bits.WR ) continue; /* Wait for hardware clear of WR bit */
      
     
 }
