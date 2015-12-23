@@ -3,22 +3,20 @@
 
 uint16_t memtest_MARCH_Cmin() {
     
-    // Writing 0, upwards
-    for(FSR1 = DATAMEM_START; FSR1 <= DATAMEM_END; FSR1++) {
-        INDF1 = 0x00;
+    /* Writing 0, upwards */
+    for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR1++) {
+        INDF0 = 0x00;
     }
     
-    // Reading 0 and Writing 1 in place, upwards
-    for(FSR1 = DATAMEM_START; FSR1 <= DATAMEM_END; FSR1++) {
-        if(INDF1 != 0x00) {
-            return FSR1;
+    /* Reading 0 and Writing 1 in place, upwards */
+    for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR1++) {
+        if(INDF0 != 0x00) {
+            return FSR0;
         }
-        INDF1 = 0xFF;
+        INDF0 = 0xFF;
     }
     
-    LATC1 = 0;
-    
-    // Reading 1 and Writing 0 in place, upwards
+    /* Reading 1 and Writing 0 in place, upwards */
     for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR0++) {
         if(INDF0 != 0xFF) {
             return FSR0;
@@ -27,7 +25,7 @@ uint16_t memtest_MARCH_Cmin() {
         INDF0 = 0x00;
     }
     
-    // Reading 0 and Writing 1 in place, downwards
+    /* Reading 0 and Writing 1 in place, downwards */
     for(FSR0 = DATAMEM_END; FSR0 >= DATAMEM_START; FSR0--) {
         if(INDF0 != 0x00) {
             return FSR0;
@@ -36,7 +34,7 @@ uint16_t memtest_MARCH_Cmin() {
         INDF0 = 0xFF;
     }
     
-    // Reading 1 and Writing 0 in place, downwards
+    /* Reading 1 and Writing 0 in place, downwards */
     for(FSR0 = DATAMEM_END; FSR0 >= DATAMEM_START; FSR0--) {
         if(INDF0 != 0xFF) {
             return FSR0;
@@ -44,7 +42,7 @@ uint16_t memtest_MARCH_Cmin() {
         INDF0 = 0x00;
     }
     
-    // Finally, reading 0, upwards
+    /* Finally, reading 0, upwards */
     for(FSR0 = DATAMEM_START; FSR0 <= DATAMEM_END; FSR0++) {
         if(INDF0 != 0x00) {
             return FSR0;
@@ -63,7 +61,7 @@ void eraseRAM() {
 uint8_t memtest_program_mem(){
     
     uint16_t prog_space_addr,prog_space_data,checksum_calc;
-    uint16_t CHECKSUM; // expected checksum
+    uint16_t CHECKSUM; /* expected checksum */
     
     for (prog_space_addr = 0x0000; prog_space_addr <= 0x1FFF; prog_space_addr++ ){
         
@@ -84,7 +82,7 @@ uint8_t memtest_program_mem(){
         if(prog_space_addr != 0x1FFF)
             checksum_calc = checksum_calc + prog_space_data;
         else
-            CHECKSUM = prog_space_data; // the expected checksum is stored in the last address
+            CHECKSUM = prog_space_data; /* the expected checksum is stored in the last address */
     }
    
     return !((CHECKSUM & 0x3FFF) ^ (checksum_calc & 0x3FFF));
@@ -103,7 +101,7 @@ uint8_t memtest_eeprom(uint8_t *checksum_calculated){
             if(NULL != checksum_calculated)
                 *checksum_calculated = eeprom_checksum_calc;
             
-            break; // to avoid infinite loop because of eeprom_addr overflow 
+            break; /* to avoid infinite loop because of eeprom_addr overflow */ 
         }
     }
     

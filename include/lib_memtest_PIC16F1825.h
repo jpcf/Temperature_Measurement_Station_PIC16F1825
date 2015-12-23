@@ -13,10 +13,10 @@ void     eraseRAM();
 
 uint8_t memtest_eeprom(uint8_t *checksum_calculated);
 
-//For this function to work, is necessary to change compiler settings to compute the checksum and store it
-// on the last program memory address.
-// the checksum option should be: 0-1ffe@1FFF,algorithm=2
-// return 0 if errors were detected in the program memory
+/*For this function to work, is necessary to change compiler settings to compute the checksum and store it
+ on the last program memory address.
+ the checksum option should be: 0-1ffe@1FFF,algorithm=2
+ return 0 if errors were detected in the program memory*/
 uint8_t memtest_program_mem();
 
 #endif
