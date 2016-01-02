@@ -1,3 +1,9 @@
+/*
+Authors: José Pedro Fonseca, Carlos Ferreira, 2015
+University of Porto, Portugal
+*/
+
+
 #ifndef _PIC16F1825_UTILS_
 #define _PIC16F1825_UTILS_
 
