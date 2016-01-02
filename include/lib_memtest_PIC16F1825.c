@@ -1,3 +1,8 @@
+/*
+Authors: José Pedro Fonseca, Carlos Ferreira, 2015
+University of Porto, Portugal
+*/
+
 #include "../include/lib_memtest_PIC16F1825.h"
 #include "../include/PIC16F1825_utils.h"
 
