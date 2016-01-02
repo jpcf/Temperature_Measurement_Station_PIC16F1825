@@ -1,3 +1,8 @@
+/*
+Authors: José Pedro Fonseca, Carlos Ferreira, 2015
+University of Porto, Portugal
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
