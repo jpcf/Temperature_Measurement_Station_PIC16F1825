@@ -1,3 +1,12 @@
+######################################################
+# Authors: José Pedro Fonseca, 2015                  #
+#           University of Porto, Portugal            #    
+#                                                    #
+#   Script that transforms an image in a suitable    #
+#        format for display at the Nokia5110         #
+#                                                    #
+######################################################
+
 from   scipy import misc
 import matplotlib as plt
 import numpy as np
