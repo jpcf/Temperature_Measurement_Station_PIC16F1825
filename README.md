@@ -1,8 +1,5 @@
 ## Temperature Measurement Station
 
-# Made by me and Carlos Ferreira
-# University of Porto, Portugal
-
 
 Electronic Systems class Final Project. Consists of a Temperature/HeartRate monitor based on the PIC16F1825 uController. It uses a Nokia5110 LCD matrix as a means to display.
 
