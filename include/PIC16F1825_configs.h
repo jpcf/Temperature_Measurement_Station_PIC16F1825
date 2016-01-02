@@ -1,3 +1,8 @@
+/*
+Authors: José Pedro Fonseca, Carlos Ferreira, 2015
+University of Porto, Portugal
+*/
+
 #ifndef PIC18F125CONFIGS_H
 #define	PIC18F125CONFIGS_H
 
