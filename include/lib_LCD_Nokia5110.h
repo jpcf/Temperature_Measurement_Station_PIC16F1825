@@ -1,3 +1,8 @@
+/*
+Authors: José Pedro Fonseca, 2015
+University of Porto, Portugal
+*/
+
 #include <xc.h>
 #include <stdint.h>
 
